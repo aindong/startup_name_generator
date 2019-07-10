@@ -9,9 +9,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: "Startup Name Generator",
       home: RandomWords(),
-      theme: ThemeData(
-        primaryColor: Colors.white
-      ),
+      theme: ThemeData(primaryColor: Colors.white),
     );
   }
 }
@@ -22,33 +20,29 @@ class RandomWordsState extends State<RandomWords> {
   final Set<WordPair> _saved = Set<WordPair>();
 
   void _pushSaved() {
-    Navigator.of(context).push(
-      MaterialPageRoute<void>(
-          builder: (BuildContext context) {
-            final Iterable<ListTile> tiles = _saved.map(
-                (WordPair pair) {
-                  return ListTile(
-                    title: Text(pair.asPascalCase, style: _biggerFont,),
-                  );
-                }
-            );
+    Navigator.of(context)
+        .push(MaterialPageRoute<void>(builder: (BuildContext context) {
+      final Iterable<ListTile> tiles = _saved.map((WordPair pair) {
+        return ListTile(
+          title: Text(
+            pair.asPascalCase,
+            style: _biggerFont,
+          ),
+        );
+      });
 
-            final List<Widget> divided = ListTile
-              .divideTiles(
-                context: context,
-                tiles: tiles
-              )
-              .toList();
+      final List<Widget> divided =
+          ListTile.divideTiles(context: context, tiles: tiles).toList();
 
-            return Scaffold(
-              appBar: AppBar(
-                title: Text("Saved Suggestions"),
-              ),
-              body: ListView(children: divided,),
-            );
-          }
-      )
-    );
+      return Scaffold(
+        appBar: AppBar(
+          title: Text("Saved Suggestions"),
+        ),
+        body: ListView(
+          children: divided,
+        ),
+      );
+    }));
   }
 
   Widget _buildSuggestions() {
@@ -63,15 +57,17 @@ class RandomWordsState extends State<RandomWords> {
           }
 
           return _buildRow(_suggestions[index]);
-        }
-    );
+        });
   }
 
   Widget _buildRow(WordPair pair) {
     final bool alreadySaved = _saved.contains(pair);
 
     return ListTile(
-      title: Text(pair.asPascalCase, style: _biggerFont,),
+      title: Text(
+        pair.asPascalCase,
+        style: _biggerFont,
+      ),
       trailing: Icon(
         alreadySaved ? Icons.favorite : Icons.favorite_border,
         color: alreadySaved ? Colors.red : null,
@@ -100,7 +96,6 @@ class RandomWordsState extends State<RandomWords> {
       body: _buildSuggestions(),
     );
   }
-
 }
 
 class RandomWords extends StatefulWidget {
